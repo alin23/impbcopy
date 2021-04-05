@@ -1,17 +1,26 @@
 # Alec Jacobson’s impbcopy and impbpaste
+**(ported to Swift 5)**
 
 This repository contains copies of Alec Jacobson’s impbcopy and impbpaste
 programs for copying and pasting images from the command line on macOS.  You
 can read more about them in [his original blog post][1].
 
+*The Objective-C source files can be found under the `OldSources/` directory.*
+
 ## Installing
 
-I’ve created a (terribly) simple makefile.  You can use it by doing the
-following:
+Universal Binaries are included in the repo, you can just copy them to a directory like `/usr/local/bin`
 
-    make install
+```shell
+cp bin/impbcopy /usr/local/bin/impbcopy
+cp bin/impbpaste /usr/local/bin/impbpaste
+```
 
-Of course, you’ll probably want to read it beforehand.
+## Building
+
+```shell
+swift build
+```
 
 ## Related Projects
 

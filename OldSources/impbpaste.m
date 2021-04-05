@@ -14,8 +14,8 @@
     NSData *imageData = [self TIFFRepresentation];
     NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:imageData];
     NSDictionary *imageProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:NSImageCompressionFactor];
-    imageData = [imageRep representationUsingType:NSPNGFileType properties:imageProps];
-    [imageData writeToFile:fileName atomically:NO];        
+    imageData = [imageRep representationUsingType:NSBitmapImageFileTypePNG properties:imageProps];
+    [imageData writeToFile:fileName atomically:NO];
 }
 
 @end
@@ -26,13 +26,13 @@ BOOL paste_from_clipboard(NSString *path)
   NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
   NSArray *classArray = [NSArray arrayWithObject:[NSImage class]];
   NSDictionary *options = [NSDictionary dictionary];
-  BOOL ok = [pasteboard canReadObjectForClasses:classArray options:options]; 
+  BOOL ok = [pasteboard canReadObjectForClasses:classArray options:options];
   if(ok)
   {
     NSArray *objectsToPaste = [pasteboard readObjectsForClasses:classArray options:options];
     NSImage *image = [objectsToPaste objectAtIndex:0];
+    [image saveAsPNGWithName:path];
     // http://stackoverflow.com/a/3213017/148668
-    [image release];
   }else
   {
     printf("Error: Clipboard doesn't seem to contain an image.\n");
@@ -46,7 +46,7 @@ int main(int argc, char * const argv[])
   if(argc<2)
   {
     printf("Usage:\n\n"
-      "Paste clipboard to file:\n    ./impbcopy path/to/file\n\n");
+      "Paste clipboard to file:\n    ./impbpaste path/to/file\n\n");
     return EXIT_FAILURE;
   }
   NSString *path= [NSString stringWithUTF8String:argv[1]];
